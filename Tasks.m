@@ -21,10 +21,7 @@ new_SWA_VBOX = [Time SWA_VBOX];
 
 
 T=3.25;
-<<<<<<< HEAD
 
-=======
->>>>>>> 8a23e565847b0ca9d32994341f525135901c8f76
 sim('TasksSimulink1a')
 plot(Time,beta_washout.Data,'-.r')
 hold on
