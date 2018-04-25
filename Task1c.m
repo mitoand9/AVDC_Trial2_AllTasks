@@ -15,7 +15,11 @@ new_yawRate_VBOX = [Time yawRate_VBOX];
 new_vx_VBOX = [Time vx_VBOX];
 new_SWA_VBOX = [Time SWA_VBOX];
 
-for T = 0.01:0.01:1
+coeff = 0;
+
+for T = 0:0.2:100
+    
+    coeff = coeff + 1;
     
     sim('TasksSimulink')
         
