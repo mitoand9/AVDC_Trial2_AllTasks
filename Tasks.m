@@ -20,7 +20,8 @@ new_SWA_VBOX = [Time SWA_VBOX];
 %% washout filter-based
 
 
-T=0.47;
+T=3.25;
+
 sim('TasksSimulink1a')
 plot(Time,beta_washout.Data,'-.r')
 hold on
