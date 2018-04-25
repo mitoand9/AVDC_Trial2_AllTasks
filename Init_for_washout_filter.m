@@ -10,6 +10,8 @@ addpath('scripts')
 addpath('logged_data')
 disp(' ');
 
+clear all
+
 % Set global variables so that they can be accessed from other matlab
 % functions and files
 global vbox_file_name
