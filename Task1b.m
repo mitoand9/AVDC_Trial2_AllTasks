@@ -39,26 +39,25 @@ for Cf = 81000:1000:99000
 
         T = 0.3;
 
-        sim('TasksSimulink')
-        
+        sim('TasksSimulink')        
 
         
         %% Errors
         
-        error_beta_an(coeff) = immse(Beta_VBOX,beta_modelbased.Data);
-        error_beta_int(coeff) = immse(Beta_VBOX,beta_integration.Data);
-        error_beta_wash(coeff) = immse(Beta_VBOX,beta_washout.Data);
+        error_beta_an(coeff) = immse(Beta_VBOX(1:1501),beta_modelbased.Data(1:1501));
+%         error_beta_int(coeff) = immse(Beta_VBOX(1:1501),beta_integration.Data);
+%         error_beta_wash(coeff) = immse(Beta_VBOX(1:1501),beta_washout.Data);
         
         plot(beta_modelbased.Time,beta_modelbased.Data,':');
         hold on;
-        plot(beta_integration.Time,beta_integration.Data);
-        hold on
-        plot(beta_washout.Time,beta_washout.Data,'-.');
-        hold on
+%         plot(beta_integration.Time,beta_integration.Data);
+%         hold on
+%         plot(beta_washout.Time,beta_washout.Data,'-.');
+%         hold on
         
     end
 end
 
 disp(coeff)
-plot(Time,Beta_VBOX);
+plot(Time(1:1501),Beta_VBOX(1:1501));
 
