@@ -21,8 +21,8 @@ global vbox_file_name
 %----------------------------
 % vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
 % time = 32.78;
-% vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
-% time = 84.78;
+vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
+time = 84.78;
 % vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
 % time = 33.15;
 % vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
@@ -85,8 +85,8 @@ mass=1435-80;       % Mass (kg)
 Iz=2380;            % Yaw inertia (kg-m2)
 tw=1.565;           % Track width (m)
 Ratio=17;           % Steering gear ratio
-Cf=100000;          % Lateral stiffness front axle (N/rad) [FREE TO TUNE]
-Cr=100000;          % Lateral stiffness rear axle (N/rad) [FREE TO TUNE]
+Cf=81000;          % Lateral stiffness front axle (N/rad) [FREE TO TUNE]
+Cr=90000;          % Lateral stiffness rear axle (N/rad) [FREE TO TUNE]
 Lx_relax=0.05;      % Longitudinal relaxation lenth of tyre (m)
 Ly_relax=0.15;      % Lateral relaxation lenth of tyre (m)
 Roll_res=0.01;      % Rolling resistance of tyre
