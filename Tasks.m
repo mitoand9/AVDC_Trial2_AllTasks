@@ -9,19 +9,20 @@ new_SWA_VBOX = [Time SWA_VBOX];
 
 %% washout filter-based
 
-coeff=0;
-T= 2.6;
-T_1 = 7.83;
+% coeff=0;
+T= 5.4;
+T_1 = 7.8;
 sim('TasksSimulink1a')
        
     plot(beta_washout.Time,beta_washout.Data,'-.');
     hold on
 
-% for T_1 = 7.5:0.01:8
+% for T = 0.1:0.1:10
+%     
+%      for T_1 = 0.1:0.1:10
 %     
 %     coeff = coeff + 1;
-%     
-%     
+%         
 %     sim('TasksSimulink1a')
 %         
 %     error_beta_wash(coeff) = immse(Beta_VBOX,beta_washout.Data);
@@ -29,6 +30,8 @@ sim('TasksSimulink1a')
 %     plot(beta_washout.Time,beta_washout.Data,'-.');
 %     hold on
 %         
+%      end
+%      
 % end
 % plot(Time,beta_integration.Data)
 % hold on
