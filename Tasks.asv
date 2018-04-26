@@ -16,7 +16,7 @@ for T_1=0.01:0.01:5;
 sim('TasksSimulink1a')
 plot(Time,beta_washout.Data,'-.r')
 hold on
-end
+
 % plot(Time,beta_integration.Data)
 % hold on
  
