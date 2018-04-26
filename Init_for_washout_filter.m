@@ -27,8 +27,8 @@ global vbox_file_name
 % time = 33.15;
 % vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
 % time = 30.05;
-% vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
-% time = 23.94;
+vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
+time = 23.94;
 
 vboload
 %  Channel 1  = satellites
