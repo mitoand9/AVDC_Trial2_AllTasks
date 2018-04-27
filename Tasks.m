@@ -1,4 +1,3 @@
-
 %% lateral acceleration integration
 
 new_ay_VBOX = [Time ay_VBOX];
