@@ -78,8 +78,8 @@ mass=1435-80;       % Mass (kg)
 Iz=2380;            % Yaw inertia (kg-m2)
 tw=1.565;           % Track width (m)
 Ratio=17;           % Steering gear ratio
-Cf=100000;          % Lateral stiffness front axle (N/rad) [FREE TO TUNE]
-Cr=100000;          % Lateral stiffness rear axle (N/rad) [FREE TO TUNE]
+Cf=81000;          % Lateral stiffness front axle (N/rad) [FREE TO TUNE]
+Cr=90000;          % Lateral stiffness rear axle (N/rad) [FREE TO TUNE]
 Lx_relax=0.05;      % Longitudinal relaxation lenth of tyre (m)
 Ly_relax=0.15;      % Lateral relaxation lenth of tyre (m)
 Roll_res=0.01;      % Rolling resistance of tyre
@@ -99,7 +99,7 @@ g=9.81;             % Gravity constant (m/s^2)
 % SET VARIABLES DATA FROM DATA READ FROM FILE
 %--------------------------------------------
 trim_start=1;
-trim_end=length(vbo.channels(1, 2).data);
+trim_end=length(vbo.channels(1, 2).data)-1;
 
 Time=(vbo.channels(1, 2).data(trim_start:trim_end,1) - vbo.channels(1, 2).data(1,1));
 yawRate_VBOX = vbo.channels(1, 35).data(trim_start:trim_end,1).*(-pi/180); %signal is inverted hence (-)
