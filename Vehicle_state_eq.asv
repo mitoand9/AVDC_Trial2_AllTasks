@@ -5,9 +5,9 @@ function x_n = Vehicle_state_eq(x,param)
 
 global lf lr mass Iz Cf Cr
 
-vxdot = psidot*vy + (Cf*vy*delta)/(vx*mass) + (Cf*psidot*lf*delta)/(vx*mass) - Cf*delta^2; %vxdot
-vydot = -lf*Cf*(vy + psidot*lf)/vx + lr*Cr %vydot
-psidotdot = %psidotdot
+x1 = psidot*vy + (Cf*vy*delta)/(vx*mass) + (Cf*psidot*lf*delta)/(vx*mass) - Cf*delta^2; %vxdot
+x2 = -lf*Cf*(vy) %vydot
+x3 = %psidotdot
 
 f_x = (x1,x2,x3);
 
