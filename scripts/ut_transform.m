@@ -120,7 +120,7 @@ function [mu,S,C,X,Y,w] = ut_transform(M,P,g,param,alpha,beta,kappa,mat,X,w)
       mu = mu + WM(i) * Y(:,i);
     end
     for i=1:size(X,2)
-      S = S + WC(i) * (Y(:,i) - mu) * (Y(:,i) - mu)';
+      S = S + WC(i) * (Y(:,i) - mu) * (Y(:,i) - mu)'
       C = C + WC(i) * (X(1:size(M,1),i) - M) * (Y(:,i) - mu)';
     end
   end

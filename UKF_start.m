@@ -17,11 +17,11 @@ global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
 %----------------------------
-%vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
-%vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
-vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
+% vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
+% vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
+% vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
 %vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
-%vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
+vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
 
 vboload
 %  Channel 1  = satellites
@@ -134,13 +134,13 @@ R= eye(3)*0.01;
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
 %--------------------------------------------------
 x_0 = [vx_VBOX(1) vy_VBOX(1) yawRate_VBOX(1)]';
-P = eye(3);
+P = Q;
 
 %-----------------------
 % INITIALISING VARIABLES
 %-----------------------
 M = x_0;
-Y = [vx_VBOX' ay_VBOX' yawRate_VBOX'];
+Y = [vx_VBOX';ay_VBOX';yawRate_VBOX'];
 %h = eye(3);
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
@@ -159,35 +159,35 @@ disp(' ');
 disp('Filtering the signal with UKF...');
 
 for i = 2:n
-    deltatrial = SWA_VBOX(i)/Ratio;
+    deltatrial = SWA_VBOX(i);
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
     [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q);
     [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R);
     
-    if i==round(n/4)
-        disp(' ');
-        disp('1/4 of the filtering done...');
-        disp(' ');
-    end
-    if i==round(n/2)
-        disp(' ');
-        disp('1/2 of the filtering done...');
-        disp(' ');
-    end
-    if i==round(n*(3/4))
-        disp(' ');
-        disp('3/4 of the filtering done... Stay tuned for the results...');
-        disp(' ');
-    end
+%     if i==round(n/4)
+%         disp(' ');
+%         disp('1/4 of the filtering done...');
+%         disp(' ');
+%     end
+%     if i==round(n/2)
+%         disp(' ');
+%         disp('1/2 of the filtering done...');
+%         disp(' ');
+%     end
+%     if i==round(n*(3/4))
+%         disp(' ');
+%         disp('3/4 of the filtering done... Stay tuned for the results...');
+%         disp(' ');
+%     end
 end
 
 %----------------------------------------
 % CALCULATE THE SLIP ANGLE OF THE VEHICLE
 %----------------------------------------
 
-ourBeta = M(:,2)./M(:,1);
+ourBeta =atan( M(2,:)./M(1,:));
 
 %---------------------------------------------------------
 % CALCULATE THE ERROR VALES FOR THE ESTIMATE OF SLIP ANGLE
@@ -201,4 +201,7 @@ fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 %-----------------
 % PLOT THE RESULTS
 %-----------------
-
+plot(ourBeta);
+hold on;
+plot(Beta_VBOX);
+hold on,
