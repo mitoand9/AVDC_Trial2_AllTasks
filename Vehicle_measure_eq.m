@@ -13,4 +13,4 @@ F34 = -Cr*alpha34;
 
 ay = (1/mass)*(F34 + F12*cos(deltatrial));
 
-y_n = [x(1,:) ay x(3,:)];
+y_n = [x(1,:) ay x(3,:)]';

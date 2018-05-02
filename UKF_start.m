@@ -12,7 +12,7 @@ disp(' ');
 
 % Set global variables so that they can be accessed from other matlab
 % functions and files
-global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt
+global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
 
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
@@ -141,10 +141,10 @@ P = eye(3);
 %-----------------------
 M = x_0;
 Y = [vx_VBOX vy_VBOX yawRate_VBOX]';
-h = eye(3);
+%h = eye(3);
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
-predictParam.dt=dt; 
+predictParam.dt=dt;
 
 % Handles to state and measurement model functions.
 state_func_UKF = @Vehicle_state_eq;
@@ -158,12 +158,11 @@ disp('Filtering the signal with UKF...');
 
 for i = 2:n
     deltatrial = SWA_VBOX(i)/Ratio;
-    Y = Y(:,i);
+    %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
     [M,P] = ukf_predict1(M,P,state_func_UKF,Q);
     [M,P,K,MU,S,LH] = ukf_update1(M,P,Y,meas_func_UKF,R);
-
     
     if i==round(n/4)
         disp(' ');
