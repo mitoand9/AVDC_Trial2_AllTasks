@@ -201,4 +201,4 @@ fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 %-----------------
 % PLOT THE RESULTS
 %-----------------
-
+plot(ourBeta)
