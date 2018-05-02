@@ -125,10 +125,10 @@ dt = Time(2)-Time(1);
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
-Q=[0.1 0 0; 0 0.1 0; 0 0 0.1];
+Q=eye(3)*0.1;
 
 % Use as starting value 0.01 for each of the measurements in R matrix
-R=[0.01 0 0; 0 0.01 0; 0 0 0.01];
+R= eye(3)*0.01;
 
 %--------------------------------------------------
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
@@ -140,7 +140,7 @@ P = eye(3);
 % INITIALISING VARIABLES
 %-----------------------
 M = x_0;
-Y = [vx_VBOX vy_VBOX yawRate_VBOX]';
+Y = [vx_VBOX' ay_VBOX' yawRate_VBOX'];
 %h = eye(3);
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
@@ -150,6 +150,8 @@ predictParam.dt=dt;
 state_func_UKF = @Vehicle_state_eq;
 meas_func_UKF = @Vehicle_measure_eq;
 
+a= state_func_UKF;
+h= meas_func_UKF;
 %-----------------------
 % FILTERING LOOP FOR UKF 
 %-----------------------
@@ -161,8 +163,8 @@ for i = 2:n
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
-    [M,P] = ukf_predict1(M,P,state_func_UKF,Q);
-    [M,P,K,MU,S,LH] = ukf_update1(M,P,Y,meas_func_UKF,R);
+    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q);
+    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R);
     
     if i==round(n/4)
         disp(' ');
