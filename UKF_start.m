@@ -140,7 +140,7 @@ P = eye(3);
 % INITIALISING VARIABLES
 %-----------------------
 M = x_0;
-Y = [vx_VBOX' ay_VBOX' yawRate_VBOX'];
+Y = [vx_VBOX'; ay_VBOX'; yawRate_VBOX'];
 %h = eye(3);
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
@@ -187,7 +187,7 @@ end
 % CALCULATE THE SLIP ANGLE OF THE VEHICLE
 %----------------------------------------
 
-ourBeta = M(:,2)./M(:,1);
+ourBeta = M(2,:)./M(1,:);
 
 %---------------------------------------------------------
 % CALCULATE THE ERROR VALES FOR THE ESTIMATE OF SLIP ANGLE
@@ -202,3 +202,5 @@ fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 % PLOT THE RESULTS
 %-----------------
 plot(ourBeta)
+hold on
+plot(Beta_VBOX_smooth)
