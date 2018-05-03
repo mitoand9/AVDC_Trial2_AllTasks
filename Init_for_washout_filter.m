@@ -21,14 +21,14 @@ global vbox_file_name
 %----------------------------
 % vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
 % time = 32.78;
-% vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
-% time = 84.78;
+vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
+time = 84.78;
 % vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
 % time = 33.15;
 % vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
 % time = 30.05;
-vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
-time = 23.94;
+% vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
+% time = 23.94;
 
 vboload
 %  Channel 1  = satellites
@@ -116,6 +116,16 @@ ax_VBOX = vbo.channels(1, 36).data(trim_start:trim_end,1).*g;
 ay_VBOX = vbo.channels(1, 37).data(trim_start:trim_end,1).*g;
 Beta_VBOX = vbo.channels(1, 30).data(trim_start:trim_end,1).*(pi/180);
 SWA_VBOX=vbo.channels(1, 9).data(trim_start:trim_end,1).*(pi/180);
+rollrate_VBOX = vbo.channels(1, 40).data(trim_start:trim_end,1).*(pi/180);
+
+% % Taking away spikes in the data
+% for i=1:length(Time)
+%     if (i>1)
+%         if (abs(rollrate_VBOX(i,1)-rollrate_VBOX(i-1))>1 || abs(rollrate_VBOX(i,1))>7)
+%             rollrate_VBOX(i,1)=rollrate_VBOX(i-1);
+%         end
+%     end
+% end
 
 % Taking away spikes in the data
 for i=1:length(Time)
