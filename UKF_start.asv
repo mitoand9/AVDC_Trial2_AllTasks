@@ -17,9 +17,9 @@ global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
 %----------------------------
-vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
+% vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
 % vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
-% vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
+vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
 %vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
 % vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
 
@@ -125,12 +125,12 @@ dt = Time(2)-Time(1);
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
-% Q = 0.01*[var(vx_VBOX) 0 0;0 0.001*var(ay_VBOX) 0;0 0 0.01*var(yawRate_VBOX)];
-Q=eye(3)*0.1;
+Q = 0.01*[var(vx_VBOX) 0 0;0 0.001*var(ay_VBOX) 0;0 0 0.01*var(yawRate_VBOX)];
+% Q=eye(3)*0.1;
 
 % Use as starting value 0.01 for each of the measurements in R matrix
-% R= 0.1*[var(vx_VBOX) 0 0;0 0.9*var(ay_VBOX) 0;0 0 5*var(yawRate_VBOX)];
-R= eye(3)*0.01;
+R= 0.01*[var(vx_VBOX) 0 0;0 0.01*var(ay_VBOX) 0;0 0 10*var(yawRate_VBOX)];
+% R= eye(3)*0.01;
 
 %--------------------------------------------------
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
@@ -144,9 +144,9 @@ P = Q;
 M = x_0;
 Y = [vx_VBOX';ay_VBOX';yawRate_VBOX'];
 %h = eye(3);
-% alpha=0.0001;
-% beta=1;
-% kappa=1;
+alpha=0.0001;
+beta=1;
+kappa=1;
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
 predictParam.dt=dt;
@@ -168,8 +168,8 @@ for i = 2:n
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
-    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q);%alpha,beta,kappa);
-    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R);%alpha,beta,kappa);
+    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q,alpha,beta,kappa);
+    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R,alpha,beta,kappa);
     
 %     if i==round(n/4)
 %         disp(' ');
