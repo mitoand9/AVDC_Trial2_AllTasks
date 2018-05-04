@@ -120,9 +120,10 @@ for i=1:length(Time)
 end
 n = length(Time);
 dt = Time(2)-Time(1);
-i=0;
-for a=0.1:0.1:1
-    i=i+1;
+
+for i=1:1:20
+    
+a=i/10;
 %----------------------------------------------
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
@@ -201,19 +202,21 @@ ourBeta =atan( M(2,:)./M(1,:));
 %---------------------------------------------------------
 Beta_VBOX_smooth=smooth(Beta_VBOX,0.01,'rlowess'); 
 [e_beta_mean,e_beta_max,time_at_max,error] = errorCalc(ourBeta',Beta_VBOX_smooth);
-% disp(' ');
-% fprintf('The MSE of Beta estimation is: %d \n',e_beta_mean);
-% fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
-mse(i)=e_beta_mean;
+% % disp(' ');
+% % fprintf('The MSE of Beta estimation is: %d \n',e_beta_mean);
+% % fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
+error_ukf(i)=e_beta_mean;
 
+% error_beta(i) = immse(Beta_VBOX_smooth,ourBeta');
 
 %-----------------
 % PLOT THE RESULTS
 %-----------------
 plot(Time,ourBeta);
-legend ('ourbeta')
 hold on;
 
-plot(Time,Beta_VBOX_smooth);
-hold on,
+
 end
+plot(Time,Beta_VBOX_smooth);
+legend('vbox')
+hold on,
