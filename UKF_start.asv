@@ -120,17 +120,19 @@ for i=1:length(Time)
 end
 n = length(Time);
 dt = Time(2)-Time(1);
-
+i=0;
+for a=0.1:0.1:1
+    i=i+1;
 %----------------------------------------------
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
-Q = 0.01*[var(vx_VBOX) 0 0;0 0.001*var(ay_VBOX) 0;0 0 0.01*var(yawRate_VBOX)];
-% Q=eye(3)*0.1;
+% Q = 0.01*[var(vx_VBOX) 0 0;0 0.001*var(ay_VBOX) 0;0 0 0.01*var(yawRate_VBOX)];
+Q=eye(3)*a;
 
 % Use as starting value 0.01 for each of the measurements in R matrix
-R= 0.01*[var(vx_VBOX) 0 0;0 0.01*var(ay_VBOX) 0;0 0 10*var(yawRate_VBOX)];
-% R= eye(3)*0.01;
+% R= 0.1*[var(vx_VBOX) 0 0;0 0.9*var(ay_VBOX) 0;0 0 5*var(yawRate_VBOX)];
+R= eye(3)*0.01;
 
 %--------------------------------------------------
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
@@ -144,9 +146,9 @@ P = Q;
 M = x_0;
 Y = [vx_VBOX';ay_VBOX';yawRate_VBOX'];
 %h = eye(3);
-alpha=0.0001;
-beta=1;
-kappa=1;
+% alpha=0.0001;
+% beta=1;
+% kappa=1;
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
 predictParam.dt=dt;
@@ -168,8 +170,8 @@ for i = 2:n
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
-    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q,alpha,beta,kappa);
-    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R,alpha,beta,kappa);
+    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q);%alpha,beta,kappa);
+    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R);%alpha,beta,kappa);
     
 %     if i==round(n/4)
 %         disp(' ');
@@ -199,9 +201,10 @@ ourBeta =atan( M(2,:)./M(1,:));
 %---------------------------------------------------------
 Beta_VBOX_smooth=smooth(Beta_VBOX,0.01,'rlowess'); 
 [e_beta_mean,e_beta_max,time_at_max,error] = errorCalc(ourBeta',Beta_VBOX_smooth);
-disp(' ');
-fprintf('The MSE of Beta estimation is: %d \n',e_beta_mean);
-fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
+% disp(' ');
+% fprintf('The MSE of Beta estimation is: %d \n',e_beta_mean);
+% fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
+mse(i)=e_beta_mean;
 
 %-----------------
 % PLOT THE RESULTS

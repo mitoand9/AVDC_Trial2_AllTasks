@@ -17,9 +17,9 @@ global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
 %----------------------------
-vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
+% vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
 % vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
-% vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
+vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
 %vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
 % vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
 
@@ -120,13 +120,15 @@ for i=1:length(Time)
 end
 n = length(Time);
 dt = Time(2)-Time(1);
-
+i=0;
+for a=0.1:0.1:1
+    i=i+1;
 %----------------------------------------------
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
 % Q = 0.01*[var(vx_VBOX) 0 0;0 0.001*var(ay_VBOX) 0;0 0 0.01*var(yawRate_VBOX)];
-Q=eye(3)*0.1;
+Q=eye(3)*a;
 
 % Use as starting value 0.01 for each of the measurements in R matrix
 % R= 0.1*[var(vx_VBOX) 0 0;0 0.9*var(ay_VBOX) 0;0 0 5*var(yawRate_VBOX)];
@@ -199,9 +201,11 @@ ourBeta =atan( M(2,:)./M(1,:));
 %---------------------------------------------------------
 Beta_VBOX_smooth=smooth(Beta_VBOX,0.01,'rlowess'); 
 [e_beta_mean,e_beta_max,time_at_max,error] = errorCalc(ourBeta',Beta_VBOX_smooth);
-disp(' ');
-fprintf('The MSE of Beta estimation is: %d \n',e_beta_mean);
-fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
+% disp(' ');
+% fprintf('The MSE of Beta estimation is: %d \n',e_beta_mean);
+% fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
+mse(i)=e_beta_mean;
+
 
 %-----------------
 % PLOT THE RESULTS
@@ -212,3 +216,4 @@ hold on;
 
 plot(Time,Beta_VBOX_smooth);
 hold on,
+end
