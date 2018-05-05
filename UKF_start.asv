@@ -121,10 +121,10 @@ end
 n = length(Time);
 dt = Time(2)-Time(1);
 coeff=0;
-for loop1=0.01:0.01:0.1
+for loop1=0.001:0.00:0.02
     
 %loop1=i/100;
-for loop2=0.001:0.001:0.01
+for loop2=0.1:0.1:0.3
     
     coeff=coeff+1;
 %----------------------------------------------
