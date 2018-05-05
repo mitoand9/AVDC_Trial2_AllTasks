@@ -121,7 +121,7 @@ end
 n = length(Time);
 dt = Time(2)-Time(1);
 
-for i=1:1:20
+for i=1:1:3
     
 a=i/10;
 %----------------------------------------------
@@ -166,13 +166,13 @@ h= meas_func_UKF;
 disp(' ');
 disp('Filtering the signal with UKF...');
 
-for i = 2:n
+for z = 2:n
     deltatrial = SWA_VBOX(i);
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
-    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q);%alpha,beta,kappa);
-    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R);%alpha,beta,kappa);
+    [M(:,z),P] = ukf_predict1(M(:,z-1),P,a,Q);%alpha,beta,kappa);
+    [M(:,z),P,K,MU,S,LH] = ukf_update1(M(:,z),P,Y(:,z),h,R);%alpha,beta,kappa);
     
 %     if i==round(n/4)
 %         disp(' ');
@@ -195,7 +195,7 @@ end
 % CALCULATE THE SLIP ANGLE OF THE VEHICLE
 %----------------------------------------
 
-ourBeta =atan( M(2,:)./M(1,:));
+ourBeta(i,:) =atan( M(2,:)./M(1,:));
 
 %---------------------------------------------------------
 % CALCULATE THE ERROR VALES FOR THE ESTIMATE OF SLIP ANGLE
