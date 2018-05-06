@@ -3,12 +3,7 @@ function x_n = Vecghicle_state_eq(x,param)
 %    x = tcghe states
 %    param = parameters tcghat you migcght need, succgh as vecghicle parameters.
 
-global lf lr mass Iz Cf Cr deltatrial dt cgh tw g ay_VBOX Mu L
-
-F1 = mass*g*0.59/2;
-F2 = mass*g*0.59/2;
-F3 = mass*g*0.41/2;
-F4 = mass*g*0.41/2;
+global lf lr mass Iz Cf Cr deltatrial dt cgh tw g Mu L F1 F2 F3 F4
 
 alpha12 = atan((x(2) + x(3)*lf)/x(1))-deltatrial;
 alpha34 = atan((x(2) - x(3)*lr)/x(1));
@@ -18,13 +13,19 @@ alpha34 = atan((x(2) - x(3)*lr)/x(1));
 
 %some tyre may enter the non-linear region, while others remain in the
 %linear region. This is because of the change in the lamb parameter
-deltaFf = mass.*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lr*cgh/(tw*L);
-deltaFr = mass.*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lf*cgh/(tw*L);
+deltaFf = mass*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lr*cgh/(tw*L);
+deltaFr = mass*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lf*cgh/(tw*L);
 
-lamb1 = (mass*g*(1-0.41)/2+deltaFf)*Mu/(Cf*abs(tan(alpha12))/2); %doesn't matter which cg has +/- deltaF, since in tcghe final formula the forces on the same axle will be added
-lamb2 = (mass*g*(1-0.41)/2-deltaFf)*Mu/(Cf*abs(tan(alpha12))/2);
-lamb3 = (mass*g*0.41/2+deltaFr)*Mu/(Cr*abs(tan(alpha34))/2);
-lamb4 = (mass*g*0.41/2-deltaFr)*Mu/(Cr*abs(tan(alpha34))/2);
+Fz1 = mass*g*(1-0.41)/2+deltaFf;
+Fz2 = mass*g*(1-0.41)/2-deltaFf;
+Fz3 = mass*g*0.41/2+deltaFf;
+Fz4 = mass*g*0.41/2-deltaFf;
+
+
+lamb1 = Fz1*Mu/(Cf*abs(tan(alpha12))/2); %doesn't matter which cg has +/- deltaF, since in tcghe final formula the forces on the same axle will be added
+lamb2 = Fz2*Mu/(Cf*abs(tan(alpha12))/2);
+lamb3 = Fz3*Mu/(Cr*abs(tan(alpha34))/2);
+lamb4 = Fz4*Mu/(Cr*abs(tan(alpha34))/2);
 
 if lamb1 <= 1
     F1 = (-Cf/2)*tan(alpha12)*lamb1*(2-lamb1);

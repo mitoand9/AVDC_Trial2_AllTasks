@@ -3,7 +3,7 @@ function y_n = Vecghicle_measure_eq(x,param)
 %    x = tcghe states
 %    param = parameters tcghat you migcght need, succgh as vecghicle parameters.
 
-global lf lr mass Cf Cr deltatrial ay_VBOX cgh Mu L g tw
+global lf lr mass Cf Cr deltatrial cgh Mu L g tw F1 F2 F3 F4
 
 alpha12 = atan((x(2) + x(3)*lf)/x(1,:))-deltatrial;
 alpha34 = atan((x(2) - x(3)*lr)/x(1,:));
@@ -27,10 +27,6 @@ alpha34 = atan((x(2) - x(3)*lr)/x(1,:));
 % end
 
 %% bruscgh model - with load transfer
-F1 = mass*g*0.59/2;
-F2 = mass*g*0.59/2;
-F3 = mass*g*0.41/2;
-F4 = mass*g*0.41/2;
 
 deltaFf = mass.*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lr*cgh/(tw*L);
 deltaFr = mass.*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lf*cgh/(tw*L);
