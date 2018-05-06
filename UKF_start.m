@@ -20,8 +20,8 @@ global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
 % vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
 % vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
 % vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
-vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
-% vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
+% vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
+vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
 
 vboload
 %  Channel 1  = satellites
@@ -121,24 +121,24 @@ end
 n = length(Time);
 dt = Time(2)-Time(1);
 coeff=0;
-q1_mat=[1 10 1000  ];
-q2_mat=[1 10 1000  ];
-q3_mat=[1 10 1000 ];
-% r1_mat=[0.0001 0.001 0.01 1];
-% r2_mat=[0.0001 0.001 0.01 1];
-% r3_mat=[0.0001 0.001 0.01 1];
-for l1=1:length(q1_mat)
-    q1=q1_mat(l1);
- for l2=1:length(q2_mat)
-    q2=q2_mat(l2);
-for l3=1:length(q3_mat)
-      q3=q3_mat(l3);  
-% for l1=1:length(r1_mat)
-%     r1=r1_mat(l1);
-%  for l2=1:length(r2_mat)
-%     r2=r2_mat(l2);
-% for l3=1:length(r3_mat)
-%       r3=r3_mat(l3);  
+% q1_mat=[0.01 0.1 1 10 100  ];
+% q2_mat=[0.01 0.1 1 10 100  ];
+% q3_mat=[0.01 0.1 1 10 100 ];
+r1_mat=[0.01 0.1 1 10 100  ];
+r2_mat=[0.01 0.1 1 10 100  ];
+r3_mat=[0.01 0.1 1 10 100 ];
+% for l1=1:length(q1_mat)
+%     q1=q1_mat(l1);
+%  for l2=1:length(q2_mat)
+%     q2=q2_mat(l2);
+% for l3=1:length(q3_mat)
+%       q3=q3_mat(l3);  
+for l1=1:length(r1_mat)
+    r1=r1_mat(l1);
+ for l2=1:length(r2_mat)
+    r2=r2_mat(l2);
+for l3=1:length(r3_mat)
+      r3=r3_mat(l3);  
 
 %     
     coeff=coeff+1;
@@ -146,12 +146,12 @@ for l3=1:length(q3_mat)
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
-Q = [q1 0 0;0 q2 0;0 0 q3];
+Q = [0.01 0 0;0 0.01 0;0 0 0.01];
 % Q=eye(3)*0.1;
 
 % Use as starting value 0.01 for each of the measurements in R matrix
-% R= 0.01*[1*var(vx_VBOX) 0 0;0 1*var(ay_VBOX) 0;0 0 1*var(yawRate_VBOX)];
-R= eye(3)*0.01;
+R= [r1 0 0;0 r2 0;0 0 r3];
+% R= eye(3)*0.01;
 
 %--------------------------------------------------
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
@@ -226,9 +226,9 @@ Beta_VBOX_smooth=smooth(Beta_VBOX,0.01,'rlowess');
 % fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 error_ukf(coeff)=e_beta_mean;
 
-utsav(1,coeff)=q1;
-utsav(2,coeff)=q2;
-utsav(3,coeff) = q3;
+utsav(1,coeff)=r1;
+utsav(2,coeff)=r2;
+utsav(3,coeff) = r3;
 
 % error_beta(i) = immse(Beta_VBOX_smooth,ourBeta');
 
