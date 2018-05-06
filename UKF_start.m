@@ -125,12 +125,12 @@ dt = Time(2)-Time(1);
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
-% Q = 0.01*[var(vx_VBOX) 0 0;0 0.001*var(ay_VBOX) 0;0 0 0.01*var(yawRate_VBOX)];
-Q=eye(3)*0.1;
+Q = [.01 0 0;0 0.01 0;0 0 .01];
+% Q=eye(3)*0.01;
 
 % Use as starting value 0.01 for each of the measurements in R matrix
 % R= 0.1*[var(vx_VBOX) 0 0;0 0.9*var(ay_VBOX) 0;0 0 5*var(yawRate_VBOX)];
-R= eye(3)*0.01;
+R= [1e-05 0 0;0 0.001 0;0 0 1e-06];
 
 %--------------------------------------------------
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
