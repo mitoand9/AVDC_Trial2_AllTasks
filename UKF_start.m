@@ -12,7 +12,7 @@ disp(' ');
 
 % Set global variables so that they can be accessed from other matlab
 % functions and files
-global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
+global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial h tw g ay_VBOX Mu
 
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
@@ -73,7 +73,7 @@ Rt=0.312;           % Tyre radius (m)
 lf=0.41*2.55;       % Distance from CoG to front axis (m)
 lr=2.55-lf;         % Distance from CoG to rear axis (m)
 L=lf+lr;            % Wheel base (m)
-h=0.2*L;            % Hight from ground to CoG (m)
+cgh=0.2*L;            % Hight from ground to CoG (m)
 mass=1435-80;       % Mass (kg)
 Iz=2380;            % Yaw inertia (kg-m2)
 tw=1.565;           % Track width (m)
