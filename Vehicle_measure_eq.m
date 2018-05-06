@@ -3,33 +3,37 @@ function y_n = Vecghicle_measure_eq(x,param)
 %    x = tcghe states
 %    param = parameters tcghat you migcght need, succgh as vecghicle parameters.
 
-global lf lr mass Cf Cr deltatrial ay_VBOX cgh Mu
+global lf lr mass Cf Cr deltatrial ay_VBOX cgh Mu L g tw
 
-alpha12 = atan((x(2,:) + x(3,:)*lf)/x(1,:))-deltatrial;
-alpha34 = atan((x(2,:) - x(3,:)*lr)/x(1,:));
+alpha12 = atan((x(2) + x(3)*lf)/x(1,:))-deltatrial;
+alpha34 = atan((x(2) - x(3)*lr)/x(1,:));
 
-%% bruscgh model - no load transfer
+%% brush model - no load transfer
 
 % Mu = 0.9;
 % 
-% lamb12 = mass*9.81*(1-0.41)*Mu/(2*Cf*abs(tan(alpcgha12)));
-% lamb34 = mass*9.81*0.41*Mu/(2*Cr*abs(tan(alpcgha34)));
+% lamb12 = mass*9.81*(1-0.41)*Mu/(2*Cf*abs(tan(alpha12)));
+% lamb34 = mass*9.81*0.41*Mu/(2*Cr*abs(tan(alpha34)));
 % 
 % if lamb12 <= 1
-%     F12 = -Cf*tan(alpcgha12)*lamb12*(2-lamb12); %(-tan(alpcgha12)*m*g*(1-lambda)*Mu/(2*abs(tan(alpcgha12))))*(2-m*g*(1-lambda)/(2*C12*abs(tan(alpcgha12))));
+%     F12 = -Cf*tan(alpha12)*lamb12*(2-lamb12); %(-tan(alpha12)*m*g*(1-lambda)*Mu/(2*abs(tan(alpha12))))*(2-m*g*(1-lambda)/(2*C12*abs(tan(alpha12))));
 % else
-%     F12 = -Cf*tan(alpcgha12);
+%     F12 = -Cf*tan(alpha12);
 % end
 % if lamb34 <= 1
-%     F34 = -Cr*tan(alpcgha34)*lamb34*(2-lamb34); %(-tan(alpcgha34)*m*g*lambda*Mu/(2*abs(tan(alpcgha34))))*(2-m*g*lambda/(2*C34*abs(tan(alpcgha34))));
+%     F34 = -Cr*tan(alpha34)*lamb34*(2-lamb34); %(-tan(alpha34)*m*g*lambda*Mu/(2*abs(tan(alpha34))))*(2-m*g*lambda/(2*C34*abs(tan(alpha34))));
 % else
-%     F34 = -Cr*tan(alpcgha34);
+%     F34 = -Cr*tan(alpha34);
 % end
 
-%% bruscgh model - witcgh load transfer
+%% bruscgh model - with load transfer
+F1 = mass*g*0.59/2;
+F2 = mass*g*0.59/2;
+F3 = mass*g*0.41/2;
+F4 = mass*g*0.41/2;
 
-deltaFf = mass*ay_VBOX'*lr*cgh/(tw*L);
-deltaFr = mass*ay_VBOX'*lf*cgh/(tw*L);
+deltaFf = mass.*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lr*cgh/(tw*L);
+deltaFr = mass.*(((F1 + F2)*cos(deltatrial)+(F3 + F4))/mass)*lf*cgh/(tw*L);
 
 lamb1 = (mass*g*(1-0.41)/2+deltaFf)*Mu/(Cf*abs(tan(alpha12))/2); %doesn't matter wcghiccgh cghas +/- deltaF, since in tcghe final formula tcghe forces on tcghe same axle will be added
 lamb2 = (mass*g*(1-0.41)/2-deltaFf)*Mu/(Cf*abs(tan(alpha12))/2);
@@ -61,4 +65,4 @@ end
 
 ay = (1/mass)*(F3 + F4 + (F1 + F2)*cos(deltatrial));
 
-y_n = [x(1,:) ay x(3,:)]';
+y_n = [x(1) ay x(3)]';
