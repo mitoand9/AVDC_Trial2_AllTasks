@@ -4,7 +4,7 @@
 % Uncented Kalman Filter (UKF).
 %----------------------------------------------------------------
 clear all;
-% close all;
+close all;
 clc;
 addpath('scripts')
 addpath('logged_data')
@@ -18,8 +18,8 @@ global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial
 % LOAD DATA FROM VBOX SYSTEM
 %----------------------------
 % vbox_file_name='logged_data/Lunda_test_140411/Stand_Still_no2.VBO'; %stand still logging, engine running
- vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
-% vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
+%  vbox_file_name='logged_data/Lunda_test_140411/Circle_left_R13m_no2.VBO'; %circle test left, roughly 13m in radius
+vbox_file_name='logged_data/Lunda_test_140411/Slalom_35kph.VBO'; %slalom entry to the left @ first cone, 35kph
 % vbox_file_name='logged_data/Lunda_test_140411/Step_Steer_left_80kph.VBO'; %Step steer to the left in 80kph
 % vbox_file_name='logged_data/Lunda_test_140411/SWD_80kph.VBO'; %Sine with dwell, first turn to the right, 80kph
 
@@ -78,8 +78,8 @@ mass=1435-80;       % Mass (kg)
 Iz=2380;            % Yaw inertia (kg-m2)
 tw=1.565;           % Track width (m)
 Ratio=17;           % Steering gear ratio
-Cf=81000;          % Lateral stiffness front axle (N/rad) [FREE TO TUNE]
-Cr=90000;          % Lateral stiffness rear axle (N/rad) [FREE TO TUNE]
+C12=81000;          % Lateral stiffness front axle (N/rad) [FREE TO TUNE]
+C34=90000;          % Lateral stiffness rear axle (N/rad) [FREE TO TUNE]
 Lx_relax=0.05;      % Longitudinal relaxation lenth of tyre (m)
 Ly_relax=0.15;      % Lateral relaxation lenth of tyre (m)
 Roll_res=0.01;      % Rolling resistance of tyre
@@ -152,7 +152,18 @@ Y = [vx_VBOX';ay_VBOX';yawRate_VBOX'];
 
 %Parameters that might be needed in the measurement and state functions are added to predictParam
 predictParam.dt=dt;
+predictParam.lf=lf;
+predictParam.lr=lr;
+predictParam.mass=mass;
+predictParam.C12=C12;
+predictParam.C34=C34;
+predictParam.Iz=Iz;
 
+updateParam.lf=lf;
+updateParam.lr=lr;
+updateParam.mass=mass;
+updateParam.C12=C12;
+updateParam.C34=C34;
 % Handles to state and measurement model functions.
 state_func_UKF = @Vehicle_state_eq;
 meas_func_UKF = @Vehicle_measure_eq;
@@ -166,12 +177,13 @@ disp(' ');
 disp('Filtering the signal with UKF...');
 
 for i = 2:n
-    deltatrial = SWA_VBOX(i);
+    predictParam.delta=SWA_VBOX;
+    updateParam.delta= SWA_VBOX(i);
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
-    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q,0.001,1,1);
-    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R,0.001,1,1);
+    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q,predictParam,0.1,10);
+    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R,updateParam,0.1,10);
     
 %     if i==round(n/4)
 %         disp(' ');
