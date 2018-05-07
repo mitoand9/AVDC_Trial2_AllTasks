@@ -211,7 +211,7 @@ fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 %-----------------
 % PLOT THE RESULTS
 %-----------------
-plot(Time,ourBeta);
+plot(Time(1000:end),ourBeta(1000:end));
 legend ('ourbeta')
 hold on;
 
