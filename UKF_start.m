@@ -12,7 +12,7 @@ disp(' ');
 
 % Set global variables so that they can be accessed from other matlab
 % functions and files
-global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial h tw g Mu L F1 F2 F3 F4 cgh
+global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial h tw g Mu L F1 F2 F3 F4 cgh 
 
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
@@ -98,7 +98,6 @@ F1 = 0;
 F2 = 0;
 F3 = 0;
 F4 = 0;
-
 
 %--------------------------------------------
 % SET VARIABLES DATA FROM DATA READ FROM FILE
@@ -191,6 +190,7 @@ for i = 2:n
 %         disp('3/4 of the filtering done... Stay tuned for the results...');
 %         disp(' ');
 %     end
+
 end
 
 %----------------------------------------
@@ -211,9 +211,11 @@ fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 %-----------------
 % PLOT THE RESULTS
 %-----------------
-plot(Time,ourBeta);
+plot(Time(1000:end),ourBeta(1000:end)*180/pi);
 legend ('ourbeta')
+xlabel('Time (s)')
+ylabel('Sideslip Angle (deg)')
+xlim([10 35])
 hold on;
 
-plot(Time,Beta_VBOX_smooth);
-hold on,
+plot(Time(1000:end),Beta_VBOX_smooth(1000:end)*180/pi);
