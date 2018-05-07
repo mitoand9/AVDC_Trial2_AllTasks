@@ -12,7 +12,7 @@ disp(' ');
 
 % Set global variables so that they can be accessed from other matlab
 % functions and files
-global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial h tw g ay_VBOX Mu L F1 F2 F3 F4 cgh
+global lf lr Cf Cr mass Iz vbox_file_name SWA_VBOX Ratio dt deltatrial h tw g Mu L F1 F2 F3 F4 cgh
 
 %----------------------------
 % LOAD DATA FROM VBOX SYSTEM
