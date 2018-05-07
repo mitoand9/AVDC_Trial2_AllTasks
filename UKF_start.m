@@ -91,7 +91,7 @@ rz=0;               % Distance from IMU to CoG z-axle (m)
 %--------------------------------------
 % SET ENVIRONEMNTAL PARAMETERS FOR TEST
 %--------------------------------------
-Mu = 0.95;             % Coefficient of friction
+Mu = 1.3;             % Coefficient of friction
 g = 9.81;             % Gravity constant (m/s^2)
 
 F1 = 0;
