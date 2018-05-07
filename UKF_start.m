@@ -196,7 +196,7 @@ end
 % CALCULATE THE SLIP ANGLE OF THE VEHICLE
 %----------------------------------------
 
-ourBeta =atan( M(2,:)./M(1,:));
+ourBeta =atan(M(2,:)./M(1,:));
 
 %---------------------------------------------------------
 % CALCULATE THE ERROR VALES FOR THE ESTIMATE OF SLIP ANGLE
