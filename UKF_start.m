@@ -211,11 +211,11 @@ fprintf('The Max error of Beta estimation is: %d \n',e_beta_max);
 %-----------------
 % PLOT THE RESULTS
 %-----------------
-plot(Time(1000:end),ourBeta(1000:end)*180/pi);
+plot(Time(1000:end),ourBeta(1000:end));
 legend ('ourbeta')
 xlabel('Time (s)')
-ylabel('Sideslip Angle (deg)')
+ylabel('Sideslip Angle (rad)')
 xlim([10 35])
 hold on;
 
-plot(Time(1000:end),Beta_VBOX_smooth(1000:end)*180/pi);
+plot(Time(1000:end),Beta_VBOX_smooth(1000:end));
