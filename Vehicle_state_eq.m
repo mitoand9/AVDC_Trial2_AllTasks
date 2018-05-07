@@ -56,8 +56,8 @@ alpha34 = atan((x(2) - x(3)*lr)/x(1));
 %% brush model - no load transfer
 
 
-lamb12 = mass*9.81*(1-0.41)*Mu/(2*Cf*abs(tan(alpha12)));
-lamb34 = mass*9.81*0.41*Mu/(2*Cr*abs(tan(alpha34)));
+lamb12 = mass*g*(1-0.41)*Mu/(2*Cf*abs(tan(alpha12)));
+lamb34 = mass*g*0.41*Mu/(2*Cr*abs(tan(alpha34)));
 
 if lamb12 <= 1
     F12 = -Cf*tan(alpha12)*lamb12*(2-lamb12); %(-tan(alpha12)*m*g*(1-lambda)*Mu/(2*abs(tan(alpha12))))*(2-m*g*(1-lambda)/(2*C12*abs(tan(alpha12))));
