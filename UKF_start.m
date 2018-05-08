@@ -125,14 +125,14 @@ dt = Time(2)-Time(1);
 % SET MEASUREMENT AND PROCESS NOICE COVARIANCES
 %----------------------------------------------
 % Use as starting value 0.1 for each of the states in Q matrix
-Q = [0.01 0 0;0 0.01 0;0 0 0.01];
-% Q=eye(3)*1e-04;
+%Q = [0.01 0 0;0 0.01 0;0 0 0.01];
+ Q=eye(3)*0.1;
 % Q= [1 0 0;0 0.01 0;0 0 .1]
 
 % Use as starting value 0.01 for each of the measurements in R matrix
 % R= 0.1*[var(vx_VBOX) 0 0;0 0.9*var(ay_VBOX) 0;0 0 5*var(yawRate_VBOX)];
-R= [0.01 0 0;0 0.01 0;0 0 100];
-% R=eye(3)*1e-04;
+%R= [0.01 0 0;0 0.01 0;0 0 100];
+ R=eye(3)*0.01;
 % R= [100 0 0;0 0.1 0; 0 0 100]
 %--------------------------------------------------
 % SET INITIAL STATE AND STATE ESTIMATION COVARIANCE
@@ -182,8 +182,8 @@ for i = 2:n
     %Y = Y(:,i)';
     % ad your predict and update functions, see the scripts ukf_predict1.m
     % and ukf_update1.m
-    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q,predictParam,0.1,10);
-    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R,updateParam,0.1,10);
+    [M(:,i),P] = ukf_predict1(M(:,i-1),P,a,Q,predictParam);
+    [M(:,i),P,K,MU,S,LH] = ukf_update1(M(:,i),P,Y(:,i),h,R,updateParam);
     
 %     if i==round(n/4)
 %         disp(' ');
